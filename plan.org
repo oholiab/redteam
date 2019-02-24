@@ -1,0 +1,8 @@
+#+TITLE: RED TEAMING
+* Goals
++ To learn some red teaming methods
++ To understand attack tooling
++ To have bright ideas about defensive methods
++ To have a better understanding of "threats"
++ To feel 1337
+
