@@ -1,0 +1,14 @@
+- hosts: all
+  tasks:
+  - name: Clone user repos
+    git:
+      repo: "{{ item.repo }}"
+      dest: /home/{{ user_name }}/{{ item.destination }}
+      update: no
+    with_items: "{{ user_repos }}"
+
+  - name: Run repo post-clone commands
+    command: "{{ item.post_clone }}"
+    args:
+      chdir: "{{ item.destination }}"
+    with_items: "{{ user_repos }}"

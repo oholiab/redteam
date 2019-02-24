@@ -1,0 +1,32 @@
+- hosts: all
+  tasks:
+  - name: Install dnscat2 via ptf
+    shell:
+      cmd: |
+        ./ptf <<EOF
+        use modules/pivoting/dnscat2
+        install
+        EOF
+    args:
+      chdir: /opt/ptf
+      creates: /pentest/pivoting/dnscat2
+
+  - name: Create dnscat2 unit file
+    copy:
+      dest: /etc/systemd/system/dnscat2.service
+      content: |
+        [Unit]
+        Description=dnscat2 server
+        Requires=network.target
+        After=network.target
+        [Service]
+        Type=simple
+        ExecStart=/usr/bin/ruby /pentest/pivoting/dnscat2/server/dnscat2.rb -d host={{ ansible_default_ipv4.address }},domain=cat.grimmwa.re --secret={{ dnscat_secret }}
+
+  - name: Start dnscat2 service
+    systemd:
+      state: started
+      name: dnscat2
+      masked: no
+      enabled: yes
+      daemon_reload: yes

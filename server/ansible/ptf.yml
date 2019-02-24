@@ -1,0 +1,6 @@
+- hosts: all
+  tasks:
+  - name: Clone ptf
+    git:
+      repo: https://github.com/trustedsec/ptf
+      dest: /opt/ptf

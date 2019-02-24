@@ -5,5 +5,8 @@ VARS+=-var="key_location=$(HOME)/.ssh/id_ecdsa.pub"
 .terraform:
 	terraform init
 
-plan apply: .terraform
+plan apply destroy: .terraform
 	terraform $@ $(VARS)
+
+ip: terraform.tfstate
+	@jq '.modules[].resources."digitalocean_droplet.red01".primary.attributes.ipv4_address' -r < terraform.tfstate

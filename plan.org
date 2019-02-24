@@ -4,5 +4,43 @@
 + To understand attack tooling
 + To have bright ideas about defensive methods
 + To have a better understanding of "threats"
++ To be able to bug bounty
 + To feel 1337
 
+* Maxims
+- I know automation, I should automate everything
+- Reproduceablity is key
+- Write everything down
+
+* Machine setup
+** DONE Terraform a droplet
+** TODO Ansible it up
+*** DONE Add a user
+*** DONE Set up shell
+*** DONE Set up editors
+*** DONE Write playbook for installing tools on page 5
+- psf is a framework for installing the tools anyway
+- Takes a fucking age and is interactive in cases so I'm not sure it can be done in batch :/
+*** TODO Automate playbook for dnscat2 setup
+- This seems like a really good thing to know how to use and recognise
+- Will also be handy for captive portal wifi
+- Should try this on a prod server and see if it gets caught
+- Should be able to alert on spikes in:
+  - Uncached DNS lookups
+  - High entropy subdomains
+**** TODO Terraform gandi nameserver setup
+- Should be able to pull IP address out of terraform host state
+- Use `ns1.cat.grimmwa.re`
+**** DONE Ansible module for installing and setting up the service
+- needs further work but that's okay!
+***** DONE Install via ptf
+***** DONE Create unit file
+***** DONE Start service
+**** TODO Install client code on laptop
+
+* Notes
+** [[https://github.com/Ne0nd0g/merlin][Merlin]] looks interesting
+- Post exploitation C2
+- Written in Go
+- Uses HTTP/2 for multiplexed connections
+** nmap diffing looks like an awesome idea
