@@ -22,11 +22,11 @@ can in order to come up with defensive methodologies!
         └── ...
 ```
 
-`plan.org` - my notes in .org format
-`README.md` - this file
-`hooks/...` - git hooks that are used in a directory so you can see them :)
-`server/...` - red teaming server setup automation
-`server/ansible/...` - server configuration
-`sserver/terraform/...` - server instantiation
+- `plan.org` - my notes in .org format
+- `README.md` - this file
+- `hooks/...` - git hooks that are used in a directory so you can see them :)
+- `server/...` - red teaming server setup automation
+- `server/ansible/...` - server configuration
+- `sserver/terraform/...` - server instantiation
 
 There are more READMEs in some of the subdirectories!
