@@ -1,0 +1,19 @@
+---
+# user to create, probaly easiest if it's your local username because I didn't
+# write any logic for running ansible *as* this user
+user_name: some_user
+# Packages you want installed for interactive use - these aren't installed
+# differently, it's just a nice way to group em
+user_packages:
+  - vim
+  - emacs
+  - zsh
+user_shell: /usr/bin/zsh
+user_repos:
+  - repo: https://github.com/some_user/zsh
+    # `destination` is inside the homedir, e.g. `/home/some_user/.zsh` for the
+    # example below
+    destination: .zsh
+    # will chdir to the directory above and run the command below
+    post_clone: make
+dnscat_secret: deadbeefdeadbeefdeadbeef

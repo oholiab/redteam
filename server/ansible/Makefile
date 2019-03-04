@@ -1,7 +1,8 @@
-.PHONY: ping run-playbook update
+.PHONY: ping run-playbook update dnscat2
 ARGS=-i inventory
 ARGS+= -e @private.yml
 ARGS+= -v
+FEATURES=dnscat2
 
 inventory:
 	make -s -C ../terraform ip > $@
@@ -24,3 +25,8 @@ dnscat2:
 
 ping: inventory .bootstrap
 	ansible all $(ARGS) -m ping
+
+features: $(FEATURES)
+
+list-features:
+	@echo $(FEATURES)
