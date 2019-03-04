@@ -2,7 +2,7 @@
 ARGS=-i inventory
 ARGS+= -e @private.yml
 ARGS+= -v
-FEATURES=dnscat2
+FEATURES=dnscat2 nmapdiff
 
 inventory:
 	make -s -C ../terraform ip > $@
@@ -20,8 +20,8 @@ setup: .bootstrap
 	ansible-playbook $(ARGS) user.yml
 	ansible-playbook $(ARGS) -u root ptf.yml
 
-dnscat2:
-	ansible-playbook $(ARGS) -u root dnscat2.yml
+$(FEATURES):
+	ansible-playbook $(ARGS) -u root $@.yml
 
 ping: inventory .bootstrap
 	ansible all $(ARGS) -m ping

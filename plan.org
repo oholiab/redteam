@@ -21,7 +21,7 @@
 *** DONE Write playbook for installing tools on page 5
 - psf is a framework for installing the tools anyway
 - Takes a fucking age and is interactive in cases so I'm not sure it can be done in batch :/
-*** TODO Automate playbook for dnscat2 setup
+*** DONE Automate playbook for dnscat2 setup
 - This seems like a really good thing to know how to use and recognise
 - Will also be handy for captive portal wifi
 - Should try this on a prod server and see if it gets caught
@@ -36,12 +36,15 @@
 ***** DONE Install via ptf
 ***** DONE Create unit file
 ***** DONE Start service
+**** TODO Set it up properly
+- Needs to run in a tmux session so it can be attached to
 **** TODO Install client code on laptop
-*** TODO iptables
+*** DONE iptables
 - Close off 80 and 443 until I'm ready to use them
 - Have temporarily:
 iptables -A INPUT -p tcp --destination-port 80 -j DROP
 iptables -A INPUT -p tcp --destination-port 443 -j DROP
+*** TODO ansible iptables
 
 * To Research
 ** TODO Make notes from o.rc post-exploitation bash framework notes on cyberpunk
@@ -49,7 +52,7 @@ iptables -A INPUT -p tcp --destination-port 443 -j DROP
 ** TODO Set up a blog for this shit
 - Can probably monorepo the whole thing
 ** TODO Open source setup tools
-*** TODO Add documentation
+*** DONE Add documentation
 **** Enumerate prerequisites
 - `pass` is used for secrets
 - ecdsa keys are assumed
@@ -62,7 +65,7 @@ iptables -A INPUT -p tcp --destination-port 443 -j DROP
 - Environment is not portable - you will have to migrate secrets yourself
 - May create an entirely new environment if the key fingerprint changes!
 - I have no idea what I'm doing
-*** TODO Write basic tests to check that secrets and PII aren't checked in
+*** DONE Write basic tests to check that secrets and PII aren't checked in
 ** TODO Start working against the "Chat application" in the playbook
 ** TODO Talk to Chris about setting up labs
 - He might be willing to work together on something!
@@ -73,6 +76,9 @@ iptables -A INPUT -p tcp --destination-port 443 -j DROP
 - Written in Go
 - Uses HTTP/2 for multiplexed connections
 ** nmap diffing looks like an awesome idea
+*** DONE test it out by setting up a cron'd nmap diff with a mailout for the host itself so you'll be notified if you add new listening services!
+- setting up MTAs are a pain in the ass and I don't want to hook any of this up to my actual mail accounts so I'll sort out another notification mechanism later if I can be bothered
+- Possibly RSS + TLS client certs or something
 ** Explore `dpkg rootkit` idea
 - Replace on-disk post-rm script for a package with something that will hook subsequent packages when removed
 - You can spread this around a few packages!

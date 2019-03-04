@@ -1,3 +1,5 @@
+# This doesn't quite do what you'd want it to, need to change it to launch
+# dnscat2 in a tmux session so I can reattach to it
 - hosts: all
   tasks:
   - name: Install dnscat2 via ptf

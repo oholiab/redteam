@@ -49,3 +49,10 @@
     lineinfile:
       path: /etc/sudoers
       line: "%sudo   ALL=(ALL) ALL"
+
+  - name: Create scripts directory
+    file:
+      path: /opt/scripts
+      owner: root
+      group: root
+      state: directory

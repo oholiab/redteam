@@ -1,0 +1,25 @@
+---
+# This just sets up an nmap diff for the host itself so you can see what it
+# looks like from the outside and ensure it's secured
+- hosts: all
+  tasks:
+  - name: ensure nmap_diff.sh script is installed
+    copy:
+      src: scripts/nmap_diff.sh
+      dest: /opt/scripts/nmap_diff.sh
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: set up nmap diffing for the host itself
+    cron:
+      name: nmap diff for self
+      hour: 12
+      job: /bin/bash -c "/opt/scripts/nmap_diff.sh $(/usr/bin/curl icanhazip.com)"
+
+  - name: set up nmap diffing jobs for user-specified host
+    cron:
+      name: nmap diff for {{ item }}
+      hour: 12
+      job: /bin/bash -c "/opt/scripts/nmap_diff.sh {{ item }}"
+    with_items: "{{ nmapdiff_hosts }}"
