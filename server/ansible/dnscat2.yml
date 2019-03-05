@@ -13,6 +13,10 @@
       chdir: /opt/ptf
       creates: /pentest/pivoting/dnscat2
 
+  - name: Ensure tmux is installed
+    apt:
+      name: tmux
+
   - name: Create dnscat2 unit file
     copy:
       dest: /etc/systemd/system/dnscat2.service
@@ -22,8 +26,9 @@
         Requires=network.target
         After=network.target
         [Service]
-        Type=simple
-        ExecStart=/usr/bin/ruby /pentest/pivoting/dnscat2/server/dnscat2.rb -d host={{ ansible_default_ipv4.address }},domain=cat.grimmwa.re --secret={{ dnscat_secret }}
+        Type=oneshot
+        ExecStart=/usr/bin/tmux new -s dnscat2 -d -- /usr/bin/ruby /pentest/pivoting/dnscat2/server/dnscat2.rb -d host={{ ansible_default_ipv4.address }},domain=cat.grimmwa.re --secret={{ dnscat_secret }}
+        RemainAfterExit=yes
 
   - name: Start dnscat2 service
     systemd:

@@ -51,7 +51,7 @@ iptables -A INPUT -p tcp --destination-port 443 -j DROP
 - Link is in your work plan
 ** TODO Set up a blog for this shit
 - Can probably monorepo the whole thing
-** TODO Open source setup tools
+** DONE Open source setup tools
 *** DONE Add documentation
 **** Enumerate prerequisites
 - `pass` is used for secrets
