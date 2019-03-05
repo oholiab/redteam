@@ -14,12 +14,27 @@
   - name: set up nmap diffing for the host itself
     cron:
       name: nmap diff for self
+      cron_file: nmapdiff
+      user: root
       hour: 12
+      minute: 0
       job: /bin/bash -c "/opt/scripts/nmap_diff.sh $(/usr/bin/curl icanhazip.com)"
 
   - name: set up nmap diffing jobs for user-specified host
     cron:
       name: nmap diff for {{ item }}
+      cron_file: nmapdiff
+      user: root
       hour: 12
+      minute: 0
       job: /bin/bash -c "/opt/scripts/nmap_diff.sh {{ item }}"
     with_items: "{{ nmapdiff_hosts }}"
+
+  - name: delete empty diffs
+    cron:
+      name: delete empty nmap diffs
+      cron_file: nmapdiff
+      user: root
+      hour: 12
+      minute: 15
+      job:  /usr/bin/find /opt/nmap_diff -size 0 -delete

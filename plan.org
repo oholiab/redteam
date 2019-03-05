@@ -36,9 +36,9 @@
 ***** DONE Install via ptf
 ***** DONE Create unit file
 ***** DONE Start service
-**** TODO Set it up properly
+**** DONE Set it up properly
 - Needs to run in a tmux session so it can be attached to
-**** TODO Install client code on laptop
+**** DONE Install client code on laptop
 *** DONE iptables
 - Close off 80 and 443 until I'm ready to use them
 - Have temporarily:
@@ -49,6 +49,35 @@ iptables -A INPUT -p tcp --destination-port 443 -j DROP
 * To Research
 ** TODO Make notes from o.rc post-exploitation bash framework notes on cyberpunk
 - Link is in your work plan
+- https://raw.githubusercontent.com/zMarch/Orc/master/README.md 
+*** Takes versions of
+- kernel
+- glibc
+- dbus
+- OS
+**** TODO Why is dbus a good target?
+*** Gathers IP from HTTP and DNS using big sites (Akamai, Google) to avoid detection
+**** TODO Can we think of good methods to detect IP address gathering, especially from an unprivileged user?
+*** Checks to see if it's in a chroot or jail
+**** TODO Enumerate these methods - is it possible to hide the fact you're in a container?
+     - Do we want to hide this?
+*** Checks for presence of
+- SELinux
+- AppArmor
+- GrSec
+*** Gets all users with a shell
+- Gathers idle time for PTYs
+- Gathers processes that *don't* have a shell
+*** Attempts to enumerate other hosts
+- Mentions using ping...
+**** TODO Find out why ping is particularly noisey, whether people realistically detect it
+*** Portscans...
+- 21 : ftp
+- 22 : ssh
+- 23 : telnet
+- 80 : http
+- 443 : https
+- 8080 : http-alt 8443, 129, 445, 3389, 3306
 ** TODO Set up a blog for this shit
 - Can probably monorepo the whole thing
 ** DONE Open source setup tools
@@ -79,6 +108,9 @@ iptables -A INPUT -p tcp --destination-port 443 -j DROP
 *** DONE test it out by setting up a cron'd nmap diff with a mailout for the host itself so you'll be notified if you add new listening services!
 - setting up MTAs are a pain in the ass and I don't want to hook any of this up to my actual mail accounts so I'll sort out another notification mechanism later if I can be bothered
 - Possibly RSS + TLS client certs or something
+- Actually on second thoughts I have some free mailboxes sitting around...
+**** TODO set up sendmail
+*** TODO delete empty diffs with cron
 ** Explore `dpkg rootkit` idea
 - Replace on-disk post-rm script for a package with something that will hook subsequent packages when removed
 - You can spread this around a few packages!
