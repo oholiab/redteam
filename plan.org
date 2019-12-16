@@ -110,10 +110,16 @@ iptables -A INPUT -p tcp --destination-port 443 -j DROP
 - Possibly RSS + TLS client certs or something
 - Actually on second thoughts I have some free mailboxes sitting around...
 **** TODO set up sendmail
-*** TODO delete empty diffs with cron
+*** DONE delete empty diffs with cron
 ** Explore `dpkg rootkit` idea
 - Replace on-disk post-rm script for a package with something that will hook subsequent packages when removed
 - You can spread this around a few packages!
 - Means code can ensure persistence in files managed by dpkg
 - Hook common utilities (maybe even init?) to work as trojans
 - post-rm script hooks will ensure persistence across upgrades!
+ 
+* Resources
+** VMs
+VulnHub
+** Domain-related malware resources
+https://zelster.com/lookup-malicious-websites

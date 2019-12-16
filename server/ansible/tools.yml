@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+  - name: Install common tools
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+        - masscan
+        - openvpn

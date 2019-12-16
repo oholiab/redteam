@@ -4,4 +4,4 @@ pushd server/terraform
 IP=$(make ip)
 popd
 
-ssh $IP
+ssh $IP $@

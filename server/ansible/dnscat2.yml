@@ -29,6 +29,8 @@
         Type=oneshot
         ExecStart=/usr/bin/tmux new -s dnscat2 -d -- /usr/bin/ruby /pentest/pivoting/dnscat2/server/dnscat2.rb -d host={{ ansible_default_ipv4.address }},domain=cat.grimmwa.re --secret={{ dnscat_secret }}
         RemainAfterExit=yes
+        [Install]
+        WantedBy=multi-user.target
 
   - name: Start dnscat2 service
     systemd:

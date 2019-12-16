@@ -2,7 +2,7 @@
 ARGS=-i inventory
 ARGS+= -e @private.yml
 ARGS+= -v
-FEATURES=dnscat2 nmapdiff
+FEATURES=dnscat2 nmapdiff tools
 
 inventory:
 	make -s -C ../terraform ip > $@
@@ -19,6 +19,9 @@ update:
 setup: .bootstrap
 	ansible-playbook $(ARGS) user.yml
 	ansible-playbook $(ARGS) -u root ptf.yml
+
+user:
+	ansible-playbook $(ARGS) user.yml
 
 $(FEATURES):
 	ansible-playbook $(ARGS) -u root $@.yml
