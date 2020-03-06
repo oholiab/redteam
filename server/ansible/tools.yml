@@ -1,9 +1,15 @@
 - hosts: all
   tasks:
   - name: Install common tools
-    apt:
+    pacman:
       name: "{{ packages }}"
     vars:
       packages:
         - masscan
         - openvpn
+        - metasploit
+        - nmap
+        - john
+        - mtr
+        - jq
+        - vi

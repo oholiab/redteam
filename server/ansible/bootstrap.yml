@@ -1,39 +1,42 @@
 - hosts: all
   vars:
-    user_local_pubkey: /home/{{ user_name }}/.ssh/id_ecdsa.pub
   tasks:
   - name: Install prerequisite packages
-    apt:
+    pacman:
       name: "{{ packages }}"
     vars:
       packages:
         - git
         - sudo
         - make
+        - go
+        - podman
+        - podman-docker
+        - tree
 
-  - name: Install user packages
-    apt:
+  - name: Install user-specific packages
+    pacman:
       name: "{{ packages }}"
-    vars: 
+    vars:
       packages: "{{ user_packages }}"
 
   - name: Set up user
     user:
       name: "{{ user_name }}"
       shell: "{{ user_shell }}"
-      groups: sudo
+      groups: wheel
       append: yes
 
   - name: Add user ssh authorized_keys directory
     file:
-      path: /home/{{ user_name }}/.ssh
+      path: "{{ user_home }}/.ssh"
       state: directory
       owner: "{{ user_name }}"
       group: "{{ user_name }}"
 
   - name: Add user ssh authorized_keys file
     file:
-      path: /home/{{ user_name }}/.ssh/authorized_keys
+      path: "{{ user_home }}/.ssh/authorized_keys"
       owner: "{{ user_name }}"
       group: "{{ user_name }}"
       mode: 0600
@@ -42,13 +45,13 @@
 
   - name: Add public key to authorized_keys file
     lineinfile:
-      path: /home/{{ user_name }}/.ssh/authorized_keys
+      path: "{{ user_home }}/.ssh/authorized_keys"
       line: "{{ lookup('file', user_local_pubkey) }}"
 
   - name: Enable sudo group
     lineinfile:
       path: /etc/sudoers
-      line: "%sudo   ALL=(ALL) ALL"
+      line: "%wheel   ALL=(ALL) ALL"
 
   - name: Create scripts directory
     file:

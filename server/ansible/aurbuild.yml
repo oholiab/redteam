@@ -1,0 +1,84 @@
+- hosts: all
+  tasks:
+  - name: Create container directory
+    file:
+      path: /containers/aur
+      state: directory
+      mode: '0755'
+      owner: root
+      group: root
+
+  - name: Install arch-install-scripts for pacstrap
+    pacman:
+      name: arch-install-scripts
+
+  - name: Pacstrap the container
+    command: pacstrap -c /containers/aur base base-devel git
+    args:
+      creates: /containers/aur/bin
+
+  - name: Create launch script
+    copy:
+      dest: /usr/local/bin/aurlaunch
+      owner: root
+      group: root
+      mode: 0755
+      content: |
+        #!/bin/bash
+
+        function set_color {
+          if [ "x$TMUX_PANE" != "x" ]; then
+            tmux select-pane -t $TMUX_PANE -P "${1}=${2}"
+          fi
+        }
+
+        function cleanup {
+          set_color fg default
+        }
+
+        trap cleanup EXIT
+        set_color bg "#333300"
+        set_color fg "#AAAA00"
+
+        sudo systemd-nspawn -b -n -D /containers/aur
+
+  - name: Create build script in container
+    copy:
+      dest: /containers/aur/usr/local/bin/cab
+      owner: root
+      group: root
+      mode: 0755
+      content: |
+        #!/bin/bash -e
+
+        if [[ -d ${1} ]]; then
+          pushd ${1} && git pull && popd
+        else
+          git clone https://aur.archlinux.org/${1}.git
+        fi
+        [[ "$DONT_BUILD" == "" ]] && cd ${1} && makepkg -s
+
+  - name: Create proxy build script outside container
+    copy:
+      dest: /usr/local/bin/cab
+      owner: root
+      group: root
+      mode: 0755
+      content: |
+        #!/bin/bash -e
+        sudo systemd-nspawn -D /containers/aur --user {{user_name}} --chdir /home/{{user_name}} cab $1
+
+  - name: Install sudo in the container
+    command: pacman -r /containers/aur -S sudo
+    args:
+      creates: /usr/bin/sudo
+
+  - name: Add wheel group to sudoers
+    lineinfile:
+      path: /containers/aur/etc/sudoers
+      line: "%wheel   ALL=(ALL) ALL"
+
+  - name: Create user
+    command: systemd-nspawn -D /containers/aur --user root useradd -u 1001 --create-home -G wheel {{user_name}}
+    args:
+      creates: /containers/aur/home/{{user_name}}

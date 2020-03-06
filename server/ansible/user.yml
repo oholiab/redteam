@@ -1,14 +1,29 @@
 - hosts: all
+  remote_user: "{{ user_name }}"
   tasks:
   - name: Clone user repos
     git:
       repo: "{{ item.repo }}"
-      dest: /home/{{ user_name }}/{{ item.destination }}
-      update: no
+      dest: "{{ user_home }}/{{ item.destination }}"
+      update: yes
     with_items: "{{ user_repos }}"
 
   - name: Run repo post-clone commands
     command: "{{ item.post_clone }}"
     args:
-      chdir: "{{ item.destination }}"
+      chdir: "{{ user_home }}/{{ item.destination }}"
     with_items: "{{ user_repos }}"
+
+  - name: Ensure GOPATH exists
+    file:
+      path: "{{ user_home }}/golang"
+      state: directory
+    
+  - name: Install user golang tools
+    shell: "export GO111MODULE=on; export GOPATH={{ user_home }}/golang; go get -v -u {{ item }}"
+    with_items:
+      - "github.com/OWASP/Amass/v3/..."
+      - "github.com/OJ/gobuster"
+
+
+
